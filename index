@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conocer, Aprender, Servir — Blog CAS · Joaquín González</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --navy: #0D1B2A;
+            --blue: #1A3A5C;
+            --mid: #2E6DA4;
+            --accent: #4CA3DD;
+            --gold: #E8A030;
+            --cream: #F5F0E8;
+            --white: #FFFFFF;
+            --gray: #8A9BB0;
+            --light: #EBF2FA;
+            --font-display: 'DM Serif Display', Georgia, serif;
+            --font-body: 'DM Sans', sans-serif;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--navy);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.2rem 4rem;
+            background: rgba(13, 27, 42, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(76, 163, 221, 0.15);
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            color: var(--accent);
+            letter-spacing: 0.02em;
+        }
+
+        .nav-logo span {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--white);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            display: block;
+            height: 2px;
+            background: var(--gold);
+            margin-top: 3px;
+            border-radius: 2px;
+        }
+
+        /* ── PAGE SYSTEM ── */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: calc(100vh - 80px);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            padding: 4rem 4rem 4rem 4rem;
+            gap: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(76, 163, 221, 0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--gold);
+            border: 1px solid rgba(232, 160, 48, 0.4);
+            padding: 0.3rem 0.9rem;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.8rem, 5vw, 4.5rem);
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .hero-sub {
+            font-size: 1.05rem;
+            color: var(--gray);
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+            max-width: 440px;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--mid);
+            color: var(--white);
+            padding: 0.8rem 1.8rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+        }
+
+        .hero-cta:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .hero-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(76, 163, 221, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            position: relative;
+        }
+
+        .hero-card::before {
+            content: '"';
+            font-family: var(--font-display);
+            font-size: 8rem;
+            color: rgba(76, 163, 221, 0.1);
+            position: absolute;
+            top: -1.5rem;
+            left: 1.5rem;
+            line-height: 1;
+        }
+
+        .profile-quote {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--cream);
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            font-size: 0.78rem;
+            font-weight: 500;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            background: rgba(76, 163, 221, 0.12);
+            color: var(--accent);
+            border: 1px solid rgba(76, 163, 221, 0.25);
+        }
+
+        .tag.gold {
+            background: rgba(232, 160, 48, 0.12);
+            color: var(--gold);
+            border-color: rgba(232, 160, 48, 0.25);
+        }
+
+        /* ── SECTION ── */
+        section {
+            padding: 5rem 4rem;
+        }
+
+        .section-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.6rem;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            line-height: 1.15;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .section-body {
+            font-size: 1rem;
+            color: var(--gray);
+            line-height: 1.8;
+            max-width: 640px;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, rgba(76, 163, 221, 0.3), transparent);
+            margin: 0 4rem;
+        }
+
+        /* ── PROFILE TEXT ── */
+        .profile-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: start;
+        }
+
+        .profile-text p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.85;
+            margin-bottom: 1.2rem;
+        }
+
+        .profile-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .value-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(76, 163, 221, 0.15);
+            border-radius: 12px;
+            padding: 1.2rem 1.4rem;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .value-card:hover {
+            border-color: rgba(76, 163, 221, 0.4);
+            background: rgba(76, 163, 221, 0.06);
+        }
+
+        .value-icon {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .value-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--white);
+            margin-bottom: 0.3rem;
+        }
+
+        .value-desc {
+            font-size: 0.82rem;
+            color: var(--gray);
+            line-height: 1.5;
+        }
+
+        /* ── CAS & IBDP PAGE ── */
+        .cas-hero {
+            padding: 5rem 4rem 3rem;
+            border-bottom: 1px solid rgba(76, 163, 221, 0.1);
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            padding: 4rem;
+        }
+
+        .info-block {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(76, 163, 221, 0.15);
+            border-radius: 16px;
+            padding: 2.5rem;
+        }
+
+        .info-block h3 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            color: var(--white);
+            margin-bottom: 0.4rem;
+        }
+
+        .info-block .sub {
+            font-size: 0.8rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.2rem;
+        }
+
+        .info-block p {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .info-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        .pillars {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .pillar {
+            border-radius: 10px;
+            padding: 1.2rem;
+            text-align: center;
+        }
+
+        .pillar.c {
+            background: rgba(138, 100, 200, 0.15);
+            border: 1px solid rgba(138, 100, 200, 0.3);
+        }
+
+        .pillar.a {
+            background: rgba(76, 163, 221, 0.12);
+            border: 1px solid rgba(76, 163, 221, 0.3);
+        }
+
+        .pillar.s {
+            background: rgba(80, 180, 120, 0.12);
+            border: 1px solid rgba(80, 180, 120, 0.3);
+        }
+
+        .pillar-letter {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .pillar.c .pillar-letter {
+            color: #A882E8;
+        }
+
+        .pillar.a .pillar-letter {
+            color: var(--accent);
+        }
+
+        .pillar.s .pillar-letter {
+            color: #50B478;
+        }
+
+        .pillar-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--gray);
+        }
+
+        /* ── EXPERIENCE PAGE ── */
+        .exp-hero {
+            padding: 4rem 4rem 2rem;
+            border-bottom: 1px solid rgba(76, 163, 221, 0.1);
+        }
+
+        .exp-type {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #50B478;
+            border: 1px solid rgba(80, 180, 120, 0.35);
+            padding: 0.3rem 0.9rem;
+            border-radius: 20px;
+            margin-bottom: 1.2rem;
+        }
+
+        .exp-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            line-height: 1.1;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .exp-quote-block {
+            margin: 3rem 4rem;
+            padding: 2rem 2.5rem;
+            border-left: 3px solid var(--gold);
+            background: rgba(232, 160, 48, 0.06);
+            border-radius: 0 12px 12px 0;
+        }
+
+        .exp-quote-text {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-style: italic;
+            color: var(--cream);
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+
+        .exp-quote-author {
+            font-size: 0.85rem;
+            color: var(--gold);
+            font-weight: 500;
+        }
+
+        .exp-body {
+            padding: 0 4rem 4rem;
+        }
+
+        .exp-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .exp-section {
+            margin-bottom: 3rem;
+        }
+
+        .exp-section-title {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .exp-section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(76, 163, 221, 0.2);
+        }
+
+        .exp-section p {
+            font-size: 0.97rem;
+            color: rgba(255, 255, 255, 0.72);
+            line-height: 1.85;
+            margin-bottom: 1rem;
+        }
+
+        .stages {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .stage-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(76, 163, 221, 0.15);
+            border-radius: 12px;
+            padding: 1.2rem;
+            transition: border-color 0.2s;
+        }
+
+        .stage-card:hover {
+            border-color: rgba(76, 163, 221, 0.4);
+        }
+
+        .stage-emoji {
+            font-size: 1.3rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .stage-name {
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            margin-bottom: 0.4rem;
+        }
+
+        .stage-text {
+            font-size: 0.85rem;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(76, 163, 221, 0.15);
+            border-radius: 16px;
+            padding: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-title {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .ra-list {
+            list-style: none;
+        }
+
+        .ra-list li {
+            font-size: 0.87rem;
+            color: rgba(255, 255, 255, 0.65);
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            line-height: 1.4;
+        }
+
+        .ra-list li:last-child {
+            border-bottom: none;
+        }
+
+        .ra-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+            margin-top: 5px;
+        }
+
+        .evidence-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .evidence-box {
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.04);
+            border: 2px dashed rgba(76, 163, 221, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 0.5rem;
+            color: var(--gray);
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .evidence-box:hover {
+            border-color: rgba(76, 163, 221, 0.45);
+        }
+
+        .evidence-box span {
+            font-size: 1.8rem;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            padding: 3rem 4rem;
+            border-top: 1px solid rgba(76, 163, 221, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-logo {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            color: var(--gray);
+        }
+
+        .footer-logo em {
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        .footer-text {
+            font-size: 0.8rem;
+            color: rgba(138, 155, 176, 0.6);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            nav {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-links {
+                gap: 1.2rem;
+            }
+
+            .hero,
+            .profile-section,
+            .two-col,
+            .exp-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            section,
+            .exp-body,
+            .exp-hero,
+            .cas-hero,
+            footer {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+
+            .exp-quote-block {
+                margin-left: 1.5rem;
+                margin-right: 1.5rem;
+            }
+
+            .stages {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .pillars {
+                grid-template-columns: 1fr;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ═══════════════════════════════ NAV ═══════════════════════════════ -->
+    <nav>
+        <div class="nav-logo">Conocer, <span>Aprender,</span> Servir</div>
+        <ul class="nav-links">
+            <li><a href="#" class="active" onclick="showPage('home',this)">Inicio</a></li>
+            <li><a href="#" onclick="showPage('cas',this)">IBDP & CAS</a></li>
+            <li><a href="#" onclick="showPage('exp',this)">Experiencias</a></li>
+        </ul>
+    </nav>
+    <!-- ═══════════════════════════════ HOME ═══════════════════════════════ -->
+    <div id="home" class="page active">
+
+        <!-- Hero -->
+        <div class="hero">
+            <div class="hero-content">
+                <div class="hero-tag">Blog CAS · San Ignacio de Recalde</div>
+                <h1>Hola, soy<br /><em>Joaquín</em><br />González.</h1>
+                <p class="hero-sub">Tengo 15 años, estudio en el colegio San Ignacio de Recalde y este es mi blog CAS —
+                    el registro de todo lo que aprendo, siento y hago más allá del aula.</p>
+                <button class="hero-cta"
+                    onclick="document.getElementById('perfil').scrollIntoView({behavior:'smooth'})">
+                    Conoce mi perfil ↓
+                </button>
+            </div>
+            <div class="hero-card">
+                <p class="profile-quote">Para lograr servir a una población o a la resolución de un problema se tiene
+                    que conocer la situación y aprender cómo solucionarlo</p>
+                <div class="profile-tags">
+                    <span class="tag">⚽ Fútbol</span>
+                    <span class="tag">📐 Matemáticas</span>
+                    <span class="tag">🔬 Física</span>
+                    <span class="tag gold">IBDP</span>
+                    <span class="tag gold">CAS 2026–2027</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Perfil Personal -->
+        <section id="perfil">
+            <div class="profile-section">
+                <div>
+                    <p class="section-label">Perfil Personal</p>
+                    <h2 class="section-title">¡Conóceme!</h2>
+                    <div class="profile-text">
+                        <p>Soy Joaquín González, tengo 15 años y soy alumno del Colegio San Ignacio de Recalde, estoy
+                            cursando el Programa del Diploma del IB. Si tuviera que describirme en pocas palabras, diría
+                            que soy alguien que reflexiona constantemente.</p>
+                        <p>El fútbol es una parte importante de mi vida; no solo porque disfruto practicarlo, sino
+                            porque me ha enseñado cosas que en el colegio no se aprender: a considerar a cualquier grupo
+                            al que pertenezca y no solo a mi, que perder es parte de la vida, y que la disciplina no es
+                            un castigo sino una decisión. Académicamente, lo que más me apasiona es la física y las
+                            matemáticas; es la sensación de poder conocer cómo funciona el mundo, sus algorítmos y bases
+                            y encontrar la lógica detrás de todo.</p>
+                        <p>Me considero una persona honesta, leal, justa y respetuosa. Trato de ser alguien quien
+                            inspire confianza, aunque sé que todavía tengo mucho por trabajar, principalmente mi
+                            paciencia.</p>
+                        <p>En CAS quiero que mis acciones tengan sentido real, no solo obtener la nota. Me interesa
+                            apoyar a estudiantes académicamente en los cursos que domino, esto porque además de adquirir
+                            profundamente el conocimiento que tengo, lo puedo compartir. Al principio del año los
+                            profesores nos dijeron que nos sacarían de nuestra zona de confort, creí que esto sería
+                            aburrido e incómodo; sin embargo, tras el paso del tiempo, comprendo que esto me ayudará a
+                            desarrollarme de una forma integral, no solo considerando la parte académica, que es muy
+                            importante, sino también la conciencia social, política y económica.</p>
+                    </div>
+                </div>
+                <div>
+                    <p class="section-label" style="margin-bottom:1.2rem;">Mis valores</p>
+                    <div class="values-grid">
+                        <div class="value-card">
+                            <div class="value-name">Justicia</div>
+                            <div class="value-desc">Creo en la igualdad de trato y oportunidades sin importar quién
+                                seas.</div>
+                        </div>
+                        <div class="value-card">
+                            <div class="value-name">Honestidad</div>
+                            <div class="value-desc">Creo que uno debe hablar con la verdad y ser transparente en todo
+                                aspecto.</div>
+                        </div>
+                        <div class="value-card">
+                            <div class="value-name">Respeto</div>
+                            <div class="value-desc">Creo en tratar correctamente a todas las personas que me rodean.
+                            </div>
+                        </div>
+                        <div class="value-card">
+                            <div class="value-name">Lealtad</div>
+                            <div class="value-desc">Principalmente, con uno mismo; creo que uno debe actuar acorde a sus
+                                propios principios sin dejarse manipular.</div>
+                        </div>
+                        <img src="foto1.jpeg" alt="Foto de Joaquín González"
+                            style="width:100%; border-radius:12px; object-fit:cover; aspect-ratio:3/4; display:block; margin-top:1rem;">
+                        <img src="foto2.jpeg" alt="Foto de Joaquín González"
+                            style="width:100%; border-radius:12px; object-fit:cover; aspect-ratio:3/4; display:block; margin-top:1rem;">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-logo">Conocer, <em>Aprender,</em> Servir</div>
+            <div class="footer-text">Joaquín González · Blog CAS · IBDP San Ignacio de Recalde · 2026–2027</div>
+        </footer>
+    </div>
+    <!-- ═══════════════════════════════ CAS & IBDP PAGE ═══════════════════════════════ -->
+    <div id="cas" class="page">
+        <div class="cas-hero">
+            <p class="section-label">Marco del programa</p>
+            <h2 class="section-title">IBDP y CAS</h2>
+        </div>
+
+        <div class="two-col">
+            <div class="info-block">
+                <div class="sub">Bachillerato Internacional</div>
+                <h3>¿Qué es el IBDP?</h3>
+                <p>El Programa del Diploma del Bachillerato Internacional (IBDP) es un programa educativo de dos años,
+                    reconocido a nivel mundial, diseñado para jóvenes de entre 16 y 19 años. Su objetivo no es solo
+                    preparar académicamente a los estudiantes para la universidad, sino formarlos como ciudadanos
+                    globales, reflexivos, responsables y comprometidos con el mundo.</p>
+                <p>A diferencia de muchos sistemas educativos tradicionales, el IBDP exige que los estudiantes piensen
+                    críticamente, investiguen de forma independiente, conecten diferentes áreas del conocimiento y
+                    actúen con integridad ética.</p>
+                <p>El programa se compone de seis grupos de asignaturas más tres componentes del núcleo obligatorios:
+                    <strong style="color:var(--accent)">Teoría del Conocimiento (TdC)</strong>, la <strong
+                        style="color:var(--accent)">Monografía</strong> y <strong
+                        style="color:var(--accent)">CAS</strong>. Sin completar los tres, no se obtiene el Diploma.
+                </p>
+            </div>
+            <div class="info-block">
+                <div class="sub">Creatividad · Actividad · Servicio</div>
+                <h3>¿Qué es CAS?</h3>
+                <p>CAS es uno de los cursos troncales del IBDP. No tiene nota numérica, pero es obligatorio para
+                    obtener el Diploma. A través de CAS, los estudiantes participan en experiencias reales que los hacen
+                    crecer en aspectos que no son desarrollados académicamente.</p>
+                <p>Se desarrolla a lo largo de los 18 meses del programa y se divide en tres áreas:</p>
+                <div class="pillars">
+                    <div class="pillar c">
+                        <div class="pillar-letter">C</div>
+                        <div class="pillar-name">Creatividad</div>
+                    </div>
+                    <div class="pillar a">
+                        <div class="pillar-letter">A</div>
+                        <div class="pillar-name">Actividad</div>
+                    </div>
+                    <div class="pillar s">
+                        <div class="pillar-letter">S</div>
+                        <div class="pillar-name">Servicio</div>
+                    </div>
+                </div>
+                <p style="margin-top:1.2rem;">Cada experiencia debe ir acompañada de una <strong
+                        style="color:var(--accent)">reflexión personal</strong> que demuestre aprendizaje real, no solo
+                    participación. Este blog comparte eso.</p>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-logo">Aprender, <em>Sentir,</em> Ayudar</div>
+            <div class="footer-text">Joaquín González · Blog CAS · IBDP San Ignacio de Recalde · 2026–2027</div>
+        </footer>
+    </div>
+    <!-- ═══════════════════════════════ EXPERIENCIA ═══════════════════════════════ -->
+    <style>
+        :root {
+            --navy: #0D1B2A;
+            --accent: #4CA3DD;
+            --gold: #E8A030;
+            --white: #FFFFFF;
+            --gray: #8A9BB0;
+            --font-display: 'DM Serif Display', Georgia, serif;
+            --font-body: 'DM Sans', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--navy);
+            color: var(--white);
+        }
+
+        .timeline-wrapper {
+            padding: 2.5rem 4rem 0;
+        }
+
+        .year-block {
+            margin-bottom: 2.5rem;
+        }
+
+        .year-label {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            color: var(--white);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .year-label span {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        .year-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(76, 163, 221, 0.2);
+        }
+
+        .months-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .month-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(76, 163, 221, 0.15);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+
+        .month-card-title {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gold);
+            margin-bottom: 0.7rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(76, 163, 221, 0.12);
+        }
+
+        .month-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(76, 163, 221, 0.1);
+            border-radius: 7px;
+            padding: 0.5rem 0.7rem;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            color: var(--white);
+            margin-bottom: 0.4rem;
+        }
+
+        .month-btn:hover {
+            background: rgba(76, 163, 221, 0.1);
+            border-color: rgba(76, 163, 221, 0.45);
+        }
+
+        .month-btn.active {
+            background: rgba(76, 163, 221, 0.18);
+            border-color: var(--accent);
+        }
+
+        .exp-num {
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .exp-name {
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+        #exp-detail {
+            padding: 3rem 4rem;
+        }
+
+        #exp-detail-description p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        #exp-detail-reflection {
+            margin-top: 2rem;
+        }
+
+        #exp-detail-reflection h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        #exp-detail-reflection p {
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+        }
+
+        #exp-detail-ras {
+            margin-top: 2rem;
+            padding-left: 1.2rem;
+        }
+
+        #exp-detail-ras li {
+            margin-bottom: 0.6rem;
+            color: rgba(255, 255, 255, 0.85);
+        }
+    </style>
+    <div id="exp" class="page">
+        <div class="exp-hero">
+            <p class="section-label">Período CAS 2026–2027</p>
+            <h2 class="section-title">Mis Experiencias</h2>
+            <p class="section-body">Selecciona un mes para ver la experiencia CAS correspondiente.</p>
+        </div>
+        <div class="timeline-wrapper">
+            <div class="year-block">
+                <div class="year-label">2026 <span>Primer año</span></div>
+                <div class="months-grid">
+                    <div class="month-card">
+                        <div class="month-card-title">Marzo</div>
+                        <button class="month-btn" onclick="showExp(1,this)"><span class="exp-num">#001</span><span
+                                class="exp-name">Experiencia 1</span></button>
+                        <button class="month-btn" onclick="showExp(2,this)"><span class="exp-num">#002</span><span
+                                class="exp-name">Experiencia 2</span></button>
+                        <button class="month-btn" onclick="showExp(3,this)"><span class="exp-num">#003</span><span
+                                class="exp-name">Experiencia 3</span></button>
+                    </div>
+                    <div class="month-card">
+                        <div class="month-card-title">Abril</div>
+                        <button class="month-btn" onclick="showExp(4,this)"><span class="exp-num">#004</span><span
+                                class="exp-name">Experiencia 4</span></button>
+                        <button class="month-btn" onclick="showExp(5,this)"><span class="exp-num">#005</span><span
+                                class="exp-name">Experiencia 5</span></button>
+                        <button class="month-btn" onclick="showExp(6,this)"><span class="exp-num">#006</span><span
+                                class="exp-name">Experiencia 6</span></button>
+                    </div>
+                    <div class="month-card">
+                        <div class="month-card-title">Mayo</div>
+                        <button class="month-btn" onclick="showExp(7,this)"><span class="exp-num">#007</span><span
+                                class="exp-name">Experiencia 7</span></button>
+                        <button class="month-btn" onclick="showExp(8,this)"><span class="exp-num">#008</span><span
+                                class="exp-name">Experiencia 8</span></button>
+                        <button class="month-btn" onclick="showExp(9,this)"><span class="exp-num">#009</span><span
+                                class="exp-name">Experiencia 9</span></button>
+                    </div>
+                    <div class="month-card">
+                        <div class="month-card-title">Junio</div>
+                        <button class="month-btn" onclick="showExp(10,this)"><span class="exp-num">#010</span><span
+                                class="exp-name">Experiencia 10</span></button>
+                        <button class="month-btn" onclick="showExp(11,this)"><span class="exp-num">#011</span><span
+                                class="exp-name">Experiencia 11</span></button>
+                        <button class="month-btn" onclick="showExp(12,this)"><span class="exp-num">#012</span><span
+                                class="exp-name">Experiencia 12</span></button>
+                    </div>
+                    <div class="month-card">
+                        <div class="month-card-title">Julio</div>
+                        <button class="month-btn" onclick="showExp(13,this)"><span class="exp-num">#013</span><span
+                                class="exp-name">Experiencia 13</span></button>
+                        <button class="month-btn" onclick="showExp(14,this)"><span class="exp-num">#014</span><span
+                                class="exp-name">Experiencia 14</span></button>
+                        <button class="month-btn" onclick="showExp(15,this)"><span class="exp-num">#015</span><span
+                                class="exp-name">Experiencia 15</span></button>
+                    </div>
+                    <div class="month-card">
+                        <div class="month-card-title">Agosto</div>
+                        <button class="month-btn" onclick="showExp(16,this)"><span class="exp-num">#016</span><span
+                                class="exp-name">Experiencia 16</span></button>
+                        <button class="month-btn" onclick="showExp(17,this)"><span class="exp-num">#017</span><span
+                                class="exp-name">Experiencia 17</span></button>
+                        <button class="month-btn" onclick="showExp(18,this)"><span class="exp-num">#018</span><span
+                                class="exp-name">Experiencia 18</span></button>
+                    </div>
+                    <div class="month-card">
+                        <div class="month-card-title">Septiembre</div>
+                        <button class="month-btn" onclick="showExp(19,this)"><span class="exp-num">#019</span><span
+                                class="exp-name">Experiencia 19</span></button>
+                        <button class="month-btn" onclick="showExp(20,this)"><span class="exp-num">#020</span><span
+                                class="exp-name">Experiencia 20</span></button>
+                        <button class="month-btn" onclick="showExp(21,this)"><span class="exp-num">#021</span><span
+                                class="exp-name">Experiencia 21</span></button>
+                    </div>
+                    <div class="month-card">
+                        <div class="month-card-title">Octubre</div>
+                        <button class="month-btn" onclick="showExp(22,this)"><span class="exp-num">#022</span><span
+                                class="exp-name">Experiencia 22</span></button>
+                        <button class="month-btn" onclick="showExp(23,this)"><span class="exp-num">#023</span><span
+                                class="exp-name">Experiencia 23</span></button>
+                        <button class="month-btn" onclick="showExp(24,this)"><span class="exp-num">#024</span><span
+                                class="exp-name">Experiencia 24</span></button>
+                    </div>
+                    <div class="month-card">
+                        <div class="month-card-title">Noviembre</div>
+                        <button class="month-btn" onclick="showExp(25,this)"><span class="exp-num">#025</span><span
+                                class="exp-name">Experiencia 25</span></button>
+                        <button class="month-btn" onclick="showExp(26,this)"><span class="exp-num">#026</span><span
+                                class="exp-name">Experiencia 26</span></button>
+                        <button class="month-btn" onclick="showExp(27,this)"><span class="exp-num">#027</span><span
+                                class="exp-name">Experiencia 27</span></button>
+                    </div>
+                    <div class="month-card">
+                        <div class="month-card-title">Diciembre</div>
+                        <button class="month-btn" onclick="showExp(28,this)"><span class="exp-num">#028</span><span
+                                class="exp-name">Experiencia 28</span></button>
+                        <button class="month-btn" onclick="showExp(29,this)"><span class="exp-num">#029</span><span
+                                class="exp-name">Experiencia 29</span></button>
+                        <button class="month-btn" onclick="showExp(30,this)"><span class="exp-num">#030</span><span
+                                class="exp-name">Experiencia 30</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="year-block">
+                <div class="year-label">2027 <span>Segundo año</span></div>
+                <div class="months-grid">
+                    <div class="month-card">
+                        <div class="month-card-title">Enero</div>
+                        <button class="month-btn" onclick="showExp(31,this)"><span class="exp-num">#031</span><span
+                                class="exp-name">Experiencia 31</span></button>
+                        <button class="month-btn" onclick="showExp(32,this)"><span class="exp-num">#032</span><span
+                                class="exp-name">Experiencia 32</span></button>
+                        <button class="month-btn" onclick="showExp(33,this)"><span class="exp-num">#033</span><span
+                                class="exp-name">Experiencia 33</span></button>
+                    </div>
+                    <div class="month-card">
+                        <div class="month-card-title">Febrero</div>
+                        <button class="month-btn" onclick="showExp(34,this)"><span class="exp-num">#034</span><span
+                                class="exp-name">Experiencia 34</span></button>
+                        <button class="month-btn" onclick="showExp(35,this)"><span class="exp-num">#035</span><span
+                                class="exp-name">Experiencia 35</span></button>
+                        <button class="month-btn" onclick="showExp(36,this)"><span class="exp-num">#036</span><span
+                                class="exp-name">Experiencia 36</span></button>
+                    </div>
+                    <div class="month-card">
+                        <div class="month-card-title">Marzo</div>
+                        <button class="month-btn" onclick="showExp(37,this)"><span class="exp-num">#037</span><span
+                                class="exp-name">Experiencia 37</span></button>
+                        <button class="month-btn" onclick="showExp(38,this)"><span class="exp-num">#038</span><span
+                                class="exp-name">Experiencia 38</span></button>
+                        <button class="month-btn" onclick="showExp(39,this)"><span class="exp-num">#039</span><span
+                                class="exp-name">Experiencia 39</span></button>
+                    </div>
+                    <div class="month-card">
+                        <div class="month-card-title">Abril</div>
+                        <button class="month-btn" onclick="showExp(40,this)"><span class="exp-num">#040</span><span
+                                class="exp-name">Experiencia 40</span></button>
+                        <button class="month-btn" onclick="showExp(41,this)"><span class="exp-num">#041</span><span
+                                class="exp-name">Experiencia 41</span></button>
+                        <button class="month-btn" onclick="showExp(42,this)"><span class="exp-num">#042</span><span
+                                class="exp-name">Experiencia 42</span></button>
+                    </div>
+                    <div class="month-card">
+                        <div class="month-card-title">Mayo</div>
+                        <button class="month-btn" onclick="showExp(43,this)"><span class="exp-num">#043</span><span
+                                class="exp-name">Experiencia 43</span></button>
+                        <button class="month-btn" onclick="showExp(44,this)"><span class="exp-num">#044</span><span
+                                class="exp-name">Experiencia 44</span></button>
+                        <button class="month-btn" onclick="showExp(45,this)"><span class="exp-num">#045</span><span
+                                class="exp-name">Experiencia 45</span></button>
+                    </div>
+                    <div class="month-card">
+                        <div class="month-card-title">Junio</div>
+                        <button class="month-btn" onclick="showExp(46,this)"><span class="exp-num">#046</span><span
+                                class="exp-name">Experiencia 46</span></button>
+                        <button class="month-btn" onclick="showExp(47,this)"><span class="exp-num">#047</span><span
+                                class="exp-name">Experiencia 47</span></button>
+                        <button class="month-btn" onclick="showExp(48,this)"><span class="exp-num">#048</span><span
+                                class="exp-name">Experiencia 48</span></button>
+                    </div>
+                    <div class="month-card">
+                        <div class="month-card-title">Julio</div>
+                        <button class="month-btn" onclick="showExp(49,this)"><span class="exp-num">#049</span><span
+                                class="exp-name">Experiencia 49</span></button>
+                        <button class="month-btn" onclick="showExp(50,this)"><span class="exp-num">#050</span><span
+                                class="exp-name">Experiencia 50</span></button>
+                        <button class="month-btn" onclick="showExp(51,this)"><span class="exp-num">#051</span><span
+                                class="exp-name">Experiencia 51</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="timeline-divider"></div>
+        <div id="exp-detail">
+            <div class="exp-hero" style="border-bottom:none;padding-top:2.5rem;">
+                <p class="section-body" style="color:var(--gray);"> Selecciona una experiencia del menú para ver su contenido.</p>
+            </div>
+        </div>
+        <footer>
+            <div class="footer-logo">Aprender, <em>Sentir,</em> Ayudar</div>
+            <div class="footer-text">Joaquín González · Blog CAS · IB San Ignacio de Recalde · 2026–2027</div>
+        </footer>
+    </div>
+    <script>
+        var experiencias = {
+            1: {
+                mes: "Marzo", año: "2026", tipo: "Actividad",
+                nombre: "Donación para el albergue Las patitas de Santa Eulalia",
+                asunto: ".A nivel global, el abandono y maltrato animal es un problema creciente que afecta a millones de animales cada año. En el Perú, la falta de recursos y cultura de adopción hace que albergues como Las Patitas de Santa Eulalia dependan casi completamente de donaciones privadas para sobrevivir. Sin apoyo externo, estos refugios no pueden continuar rescatando y cuidando animales en situación de calle.",
+                descripcion: ["La experiencia consistió en realizar una donación al albergue Las Patitas de Santa Eulalia, cuyo objetivo principal es preservar y promover la continuidad del albergue para lograr salvar y cuidar más animales. Para ello se planificó investigar sobre el albergue, comunicarse con ellos, comprar tickets y promocionar el sorteo.",
+                "Participé en esta actividad porque la idea de ayudar animales me sensibilizó profundamente. Soy una persona a quien le gustan los animales y creo que, de ser posible, debemos ayudar a los que están necesitándolo. Me encargué de investigar, comprar tickets y promocionar el sorteo para generar mayor impacto."],
+                fotos: ["fotoexp1.1.jpeg"],
+                reflexion: {
+                investigacion: "Investigué sobre el albergue y comprendí el estado en que muchos perros se encuentran, y la lejanía en nuestra sociedad de ayudarlos. Esto me mostró la necesidad real de este tipo de organizaciones.",
+                preparacion: "Me comuniqué con el albergue para entender cómo podía contribuir, compré tickets y organicé la forma en que promocionaría el sorteo para maximizar el alcance.",
+                accion: "Promocioné el sorteo de la mejor manera posible. Identifiqué que debo aprender a organizarme y promocionar de mejor manera, al igual que las organizaciones que apoyan esta causa.",
+                demostracion: "Logré comprender la realidad que muchos perros atraviesan y la falta de ayuda que tienen en nuestra sociedad. Identifiqué que debo aprender a apoyar a la sociedad mejor. Si volviera a vivir esta experiencia, aumentaría la cantidad de tickets comprados y mejoraría la forma en que promocioné el sorteo."
+                },
+                ras: ["RA1 — Aprendí a organizarme y promocionar causas de forma más efectiva.","RA4 — Demostré compromiso y perseverancia al llevar a cabo todas las actividades planificadas.","RA6 — Comprendí la importancia global del bienestar animal y el rol que cada persona puede tener.","RA7 — Reconocí el aspecto ético de mis decisiones y cómo puedo mejorar mi impacto en futuras acciones."]
+            },
+            2: {
+                mes: "Marzo", año: "2026", tipo: "Actividad",
+                nombre: "Toma de fotos de la concientización de la hora del planeta",
+                asunto: "El cambio climático es un problema global que exige concientización desde todos los espacios. A nivel local, iniciativas como el Día del Planeta buscan movilizar a la comunidad escolar para generar conciencia ambiental y promover hábitos sostenibles.",
+                descripcion: ["Tomé fotografías para registrar la sensibilidad del Día del Planeta. Mi objetivo fue ayudar a mis compañeros a sustentar su trabajo como brigadistas. Para ello planifiqué un horario, tomé las fotos y subí los archivos.",
+                                "Decidí participar porque me pareció una oportunidad única que me pondría a prueba. Pienso que haciendo esto me fortalezco para desarrollar la responsabilidad y empatía."  ],
+                fotos: ["fotoexp2.1.jpg"],
+                reflexion: { investigacion: "Lo más significativo fue aprender sobre la importancia del orden y el correcto planeamiento de actividades relacionadas con el tiempo.", 
+                preparacion: "Planifiqué el horario de tomas para cubrir todas las actividades del evento y coordinar con los brigadistas.", 
+                accion: "Aprendí a manejar tiempos y organizarme. Las consecuencias de no seguir un horario fueron evidentes. Hablé con varios profesores y tuve que mantener un ritmo alto para lograr cumplir con todos mis compañeros.", 
+                demostracion: "Si volviera a vivir la experiencia mejoraría la organización de tiempos para lograr tomar fotos a todos los participantes. Además hubiera habido una reunión previa para coordinar correctamente y hacer un horario fijo." },
+                ras: [    "RA1 — Identifiqué mis puntos fuertes y las áreas en las que necesito mejorar, especialmente en planificación.",
+                "RA2 — Afronté el desafío de cubrir todas las actividades manteniendo un ritmo alto de trabajo.",
+                "RA5 — Coordiné con varios profesores y trabajé colaborativamente con mis compañeros brigadistas."]
+            },
+            3: {
+                mes: "Marzo", año: "2026", tipo: "Servicio",
+                nombre: "Donación: Aprendiendo Diferente",
+                frase: "La discapacidad no es una vida valiente. Es simplemente una vida.",
+                autor: "Stella Young",
+                asunto: "A nivel global, las personas con habilidades especiales enfrentan barreras de inclusión y falta de recursos. En el Perú, proyectos como Aprendiendo Diferente buscan colaborar con grupos de personas con habilidades especiales que necesitan aprender a manejar sus emociones, pero suelen ser marginados y reciben poco apoyo de la sociedad.",
+                descripcion: [
+                "Hice donaciones al proyecto Aprendiendo Diferente. El objetivo principal es colaborar con el grupo de personas con habilidades especiales que necesitan aprender a manejar sus emociones. Las actividades realizadas fueron decidir qué donar, analizar qué necesitan y hacer seguimiento si se necesita algo más.",
+                "Decidí participar en esta experiencia porque es una causa noble que no tiene mucho apoyo y suele ser marginada. Lo más significativo fue sentirme feliz por apoyar, practiqué mi empatía y eso abrió nuevos pensamientos que me harán actuar correctamente en el futuro."
+                ],
+                fotos: ["fotoexp3.1.jpg"],
+                reflexion: {
+                investigacion: "Analicé las necesidades del proyecto Aprendiendo Diferente para decidir qué tipo de donación sería más útil y de mayor impacto para las personas con habilidades especiales.",
+                preparacion: "Decidí qué donar analizando las necesidades reales del albergue.",
+                accion: "Al decidir qué donar y analizar las necesidades y comparar con mis compañeros para llevar la donación, cumplí los RA 2 y 5. Al hacer seguimiento de las necesidades del proyecto demostré haber desarrollado los RA 6 y 7.",
+                demostracion: "Si volviera a vivir la experiencia buscaría ir al albergue en sí. No entré a la lista pero busqué ayudar lo más posible, lograr un mayor aprendizaje al relacionarme con personas con habilidades especiales."
+                },
+                ras: [
+                "RA2 — Afronté desafíos y desarrollé nuevas habilidades al decidir qué donar y cómo hacerlo.",
+                "RA5 — Trabajé colaborativamente con mis compañeros para llevar la donación correctamente.",
+                "RA6 — Mostré compromiso con una causa de importancia global: la inclusión de personas con habilidades especiales.",
+                "RA7 — Reconocí el aspecto ético de mis decisiones y acciones al hacer seguimiento de las necesidades del proyecto."
+                ]
+            },
+            4: {
+                mes: "Abril", año: "2026", tipo: "Servicio",
+                nombre: "Donación de Pintura para Voluntariado Mundo Libre",
+                frase: "La generosidad consiste en dar más de lo que puedes, y el orgullo en recibir menos de lo que necesitas.",
+                autor: "Khalil Gibran",
+                asunto: "A nivel global, las personas en proceso de rehabilitación enfrentan no solo desafíos físicos y emocionales, sino también la falta de recursos básicos para actividades que promuevan su bienestar. En el Perú, iniciativas como Mundo Libre buscan mejorar la calidad de vida de personas en rehabilitación a través del arte y actividades recreativas, dependiendo en gran medida de donaciones externas para continuar su labor.",
+                descripcion: [
+                    "Realicé una donación de pintura para el voluntariado Mundo Libre, organizado por un grupo de estudiantes y profesores de arte. El objetivo principal fue apoyar las actividades artísticas que se desarrollan con las chicas en proceso de rehabilitación, proporcionando materiales necesarios para llevar a cabo estas iniciativas.",
+                    "Formé parte de esta experiencia investigando sobre la realidad de las chicas en rehabilitación. Lo más significativo fue comprender cómo cosas básicas, como tener materiales de pintura, pueden ser añoradas por personas en rehabilitación y el impacto que pequeñas donaciones pueden generar en su bienestar."
+                ],
+                fotos: ["fotoexp4.1.jpg"],
+                reflexion: {
+                    investigacion: "Investigué sobre la realidad de las chicas en rehabilitación en Mundo Libre, comprendiendo sus necesidades y cómo el arte puede ser una herramienta terapéutica fundamental en su proceso de recuperación.",
+                    preparacion: "Coordiné con el grupo de estudiantes y profesores de arte organizadores del voluntariado para entender qué materiales eran más necesarios y cómo podía contribuir de manera más efectiva.",
+                    accion: "Realicé la donación de pintura y comprendí cómo cosas básicas pueden ser añoradas por personas en rehabilitación. Esta experiencia cambió mi perspectiva sobre el valor de los recursos que normalmente damos por sentado.",
+                    demostracion: "Si volviera a vivir esta experiencia, investigaría con mayor profundidad las necesidades específicas de las chicas para poder donar materiales que generen un impacto aún mayor en su proceso de rehabilitación."
+                },
+                ras: [
+                    "RA1 — Identifiqué mis fortalezas y áreas de mejora al enfrentarme a una realidad distinta a la mía y reflexionar sobre cómo puedo contribuir mejor.",
+                    "RA4 — Demostré compromiso al investigar, coordinar y concretar la donación para apoyar el voluntariado Mundo Libre."
+                ]
+            },
+            5: {
+                 mes:"Abril",año:"2026",tipo:"Actividad",
+                nombre:"Voluntariado: Mundo Libre",
+                asunto:"A nivel global, las personas con enfermedades mentales enfrentan dificultades de inclusión y bienestar emocional. Instituciones como Ann Sullivan buscan mejorar su calidad de vida mediante actividades recreativas, educativas y de integración social.",
+                descripcion:[
+                "Fui al voluntariado de Mundo Libre junto con mis compañeros, donde pintamos un mural y compartimos tiempo con las chicas albergadas. El objetivo principal fue generar un ambiente positivo y fortalecer la relación entre nosotros y las chicas del albergue.",
+                "Decidí participar en esta experiencia porque me invitaron mis amigos y me di cuenta de lo importante que es ayudar a personas que atraviesan situaciones difíciles. Lo más significativo fue comprender cómo acciones simples, como pintar un mural o compartir tiempo con ellas, pueden mejorar el estado emocional de las personas."
+                ],
+                fotos:["fotoexp5.1.jpeg"],
+                reflexion:{
+                investigacion:"Investigué sobre la labor del albergue y cómo actividades artísticas y recreativas pueden influir positivamente en la salud mental y emocional de las personas albergadas.",
+                preparacion:"Organicé materiales junto con mis compañeros y coordinamos cómo desarrollar las actividades para generar un ambiente agradable y entretenido para los chicos.",
+                accion:"Al organizar materiales, pintar el mural y compartir tiempo con los chicos, desarrollé habilidades de trabajo en equipo y empatía, demostrando los RA 4 y 5. También comprendí la importancia social y ética de ayudar a comunidades vulnerables, fortaleciendo los RA 6 y 7.",
+                demostracion:"Si volviera a vivir esta experiencia investigaría más sobre cómo funcionan las terapias y actividades de rehabilitación en Mundo Libre para poder aportar de una manera más útil y generar un impacto aún mayor en las chicas."
+                },
+                ras:[
+                "RA4 — Mostré compromiso y perseverancia durante las actividades realizadas en el voluntariado.",
+                "RA5 — Trabajé colaborativamente con mis compañeros para organizar materiales y pintar el mural.",
+                "RA6 — Mostré compromiso con una cuestión de importancia global relacionada con la inclusión y bienestar de personas con necesidades especiales.",
+                "RA7 — Reconocí el aspecto ético de mis acciones al apoyar emocionalmente y compartir tiempo con los chicos del albergue."]
+            },
+            6: {
+                mes: "Abril", año: "2026", tipo: "Actividad",
+                nombre: "Clases de Matemática a Estudiante con Dificultades",
+                asunto: "A nivel global, muchos estudiantes enfrentan dificultades de aprendizaje en matemáticas sin recibir el apoyo personalizado que necesitan. En el Perú, las diferencias en el ritmo de aprendizaje dentro de las aulas generan brechas que afectan el rendimiento académico de los estudiantes. El apoyo entre pares representa una herramienta efectiva para cerrar estas brechas desde dentro de la comunidad escolar.",
+                descripcion: [
+                "Di clases de matemática a una estudiante que había tenido problemas comprendiendo sus clases del colegio. Yo organicé la actividad y mi objetivo era lograr que ella entendiera el tema. Las actividades realizadas fueron preparar la clase y organizarme, investigar sobre cómo compartir información, y dar la clase poniéndome en el lugar del estudiante.",
+                "Decidí participar en la actividad porque sentí empatía al haber estado en la misma situación de no haber comprendido temas en otros cursos. Además, tengo un gusto por las matemáticas por lo que disfruto enseñarlas. Lo más significativo fue comprender la dificultad de transmitir conocimiento aunque uno lo tenga, y esto me enfocó en cumplir eso correctamente."
+                ],
+                fotos: ["fotoexp6.1.jpeg"],
+                reflexion: {
+                investigacion: "Investigué sobre cómo compartir y transmitir información de manera efectiva, buscando estrategias pedagógicas que me permitieran explicar los temas matemáticos de forma clara y adaptada al nivel de la estudiante.",
+                preparacion: "Preparé la clase y me organicé para estructurar los temas de manera progresiva. Planifiqué los ejercicios y ejemplos que usaría para que la estudiante pudiera comprender el contenido paso a paso.",
+                accion: "Di la clase poniéndome en el lugar de la estudiante. Comprendí la dificultad de transmitir conocimiento aunque uno lo tenga, lo que me enfocó en buscar diferentes formas de explicar hasta lograr que ella entendiera el tema.",
+                demostracion: "Si volviera a vivir esta experiencia, investigaría más estrategias de enseñanza desde el inicio para poder transmitir el conocimiento de manera más efectiva y adaptada a las necesidades específicas de la estudiante."
+                },
+                ras: [
+                "RA1 — Identifiqué mis puntos fuertes y áreas de mejora al enfrentarme al desafío de transmitir conocimiento matemático.",
+                "RA2 — Desarrollé nuevas habilidades pedagógicas al investigar cómo compartir información y aplicarlas en la clase.",
+                "RA3 — Planifiqué y organicé la experiencia de forma autónoma, estructurando los temas y materiales necesarios.",
+                "RA4 — Demostré compromiso al preparar y dar la clase con el objetivo de que la estudiante comprendiera el tema."
+                ]
+            },
+            7: {
+                mes: "Mayo", año: "2026", tipo: "Creatividad",
+                nombre: "Aprendizaje de LaTeX",
+                asunto: "En el ámbito científico y académico global, la comunicación clara y profesional de resultados es fundamental. LaTeX es el estándar de presentación en universidades e instituciones científicas de todo el mundo. En el Perú, su uso aún es poco común en la educación secundaria, lo que representa una brecha entre los estudiantes locales y los estándares internacionales de comunicación académica.",
+                descripcion: [
+                "La experiencia consistió en aprender LaTeX mediante la plataforma Overleaf, promovida en el contexto del curso de Física del IB, donde el profesor José Gutiérrez solicitó que los informes de laboratorio fueran presentados con este sistema de edición científica. El objetivo principal fue adquirir una herramienta ampliamente utilizada en entornos académicos para elaborar documentos técnicos con formato profesional.",
+                "Decidí participar porque, más allá del requisito académico, me interesó aprender una herramienta utilizada en ámbitos científicos y universitarios. Investigué el funcionamiento básico de LaTeX y Overleaf de forma autónoma mientras desarrollaba mi propio documento, y elaboré un informe de laboratorio completo aplicando los conocimientos adquiridos en un contexto real."
+                ],
+                fotos: ["fotoexp7.1.jpg"],
+                reflexion: {
+                investigacion: "Investigué en internet el funcionamiento básico de LaTeX y la plataforma Overleaf mientras desarrollaba mi propio documento. Tuve que profundizar en los comandos y herramientas de forma autónoma, consultando recursos y tutoriales para resolver dudas de manera eficiente.",
+                preparacion: "Organicé el aprendizaje de LaTeX de forma paralela a la elaboración del informe de laboratorio. Practiqué diferentes funciones y comandos hasta familiarizarme con la plataforma y poder aplicarlos correctamente en el documento final.",
+                accion: "Lo más significativo fue descubrir una nueva forma de presentar información científica de manera clara, ordenada y profesional. Aunque no tenía experiencia previa con LaTeX, mantuve perseverancia, resolví dificultades y completé satisfactoriamente el informe solicitado para el curso de Física.",
+                demostracion: "Si volviera a vivir esta experiencia, comenzaría a aprender LaTeX con mayor anticipación para familiarizarme antes con sus comandos. También dedicaría más tiempo a explorar funciones avanzadas de Overleaf y consultaría una mayor variedad de recursos desde el inicio para trabajar con mayor rapidez y profundidad."
+                },
+                ras: [
+                "RA2 — Desarrollé nuevas habilidades tecnológicas aprendiendo a utilizar LaTeX y Overleaf mediante investigación autónoma, y las apliqué en un informe de laboratorio real.",
+                "RA4 — Demostré perseverancia y compromiso al completar el informe utilizando una herramienta que no había empleado anteriormente, resolviendo dificultades en el proceso."
+                ]
+            },
+            8: {
+                mes: "De Marzo a Mayo", año: "2026", tipo: "Actividad",
+                nombre: "Campaña de Reciclaje Reciclando Ando",
+                asunto: "La gestión inadecuada de residuos es un problema global que genera contaminación y acelera el cambio climático. En el Perú, la falta de cultura de reciclaje hace que grandes cantidades de plástico, papel y residuos electrónicos terminen en rellenos sanitarios o en el ambiente. Iniciativas como Reciclando Ando buscan fomentar hábitos sostenibles desde la comunidad educativa, promoviendo la separación y entrega responsable de residuos reciclables.",
+                descripcion: [
+                "La campaña Reciclando Ando fue organizada por el colegio entre marzo y mayo de 2026 con el propósito de promover la gestión responsable de residuos y fomentar hábitos sostenibles. Participé recolectando y donando papel y cartón, botellas de plástico y residuos de aparatos eléctricos y electrónicos (RAEE). Logré aportar cantidades sobresalientes de RAEE y plástico, aunque no alcancé la meta mínima establecida para papel y cartón.",
+                "Mi rol consistió en recolectar, clasificar y almacenar materiales reciclables en mi hogar para posteriormente entregarlos al colegio en varias entregas parciales. Además de los residuos generados en casa, recogí materiales de familiares y vecinos que los habían separado para la campaña. También manifesté mi interés en apoyar la clasificación de RAEE durante las sesiones de CAS, aunque por limitaciones de tiempo no fue posible participar más activamente en esa tarea."
+                ],
+                fotos: ["fotoexp8.1.jpg"],
+                reflexion: {
+                investigacion: "Antes de iniciar investigué qué materiales eran aceptados y cuáles no. Profundicé por mi cuenta en el tema de los RAEE, investigando qué elementos pertenecían a esta categoría y cuál era la importancia de su correcta disposición. La información del colegio y de fuentes web me permitió participar de manera más responsable y efectiva.",
+                preparacion: "Organicé la recolección en mi hogar separando plástico en bolsas, papel y cartón en cajas, y RAEE en un espacio específico. Durante el segundo mes solicité apoyo a familiares y vecinos para incrementar los materiales recolectados. Cada dos semanas revisaba y reunía los residuos acumulados para transportarlos al colegio en entregas parciales.",
+                accion: "La experiencia se desarrolló principalmente en mi hogar y entorno cercano. Recolecté, clasifiqué y entregué materiales de forma constante durante toda la campaña. Involucrar a familiares y vecinos fue clave para aumentar el volumen de materiales. La mayor dificultad fue reunir suficiente papel y cartón para alcanzar la meta, y el transporte de grandes volúmenes al colegio.",
+                demostracion: "Lo más significativo fue darme cuenta de la gran cantidad de residuos reciclables que se generan en los hogares y que normalmente se desechan sin clasificación. Comprendí que pequeñas acciones individuales generan impacto cuando se mantienen de forma constante. Si volviera a vivirla, solicitaría apoyo a familiares desde el primer día y planificaría mejor la recolección de papel y cartón desde el inicio."
+                },
+                ras: [
+                "RA2 — Desarrollé conocimientos sobre clasificación de residuos y mejoré mis habilidades de organización y separación de materiales reciclables.",
+                "RA4 — Mantuve compromiso y perseverancia durante toda la campaña entre marzo y mayo, realizando entregas periódicas cada dos semanas.",
+                "RA5 — Colaboré con familiares y vecinos solicitando su apoyo para reunir residuos reciclables y ampliar el impacto de la campaña.",
+                "RA7 — Comprendí la importancia ética y ambiental de disponer correctamente los residuos, especialmente los electrónicos, y promoví acciones responsables en mi entorno."
+                ]
+            },
+            9: {
+                mes: "Mayo", año: "2026", tipo: "Servicio",
+                nombre: "Donación de Ropa al INABIF",
+                frase: "No podemos hacer grandes cosas, solo pequeñas cosas con gran amor.",
+                autor: "Madre Teresa de Calcuta",
+                asunto: "A nivel global, miles de adolescentes viven en situación de vulnerabilidad sin acceso a recursos básicos. En el Perú, el Instituto Nacional de Bienestar Familiar (INABIF) brinda atención y protección a adolescentes albergados que enfrentan situaciones difíciles. La donación de ropa en buen estado representa una acción concreta que contribuye al bienestar de estos jóvenes y promueve el consumo responsable.",
+                descripcion: [
+                "La experiencia consistió en donar ropa en buen estado al INABIF, institución que brinda atención y protección a adolescentes albergados. La actividad fue realizada por iniciativa propia con el objetivo de dar una segunda oportunidad de uso a prendas que ya no eran de mi talla y, al mismo tiempo, apoyar a jóvenes que enfrentan situaciones difíciles.",
+                "Decidí participar porque comprendí que vivir en un albergue puede representar numerosos desafíos para los adolescentes. Revisé mi ropa, seleccioné prendas en buen estado, las organicé y las transporté personalmente al INABIF. Esta experiencia me hizo valorar más los recursos que tengo y comprender la importancia de compartir aquello que ya no necesito con quienes pueden beneficiarse de ello."
+                ],
+                fotos: ["fotoexp9.1.jpeg"],
+                reflexion: {
+                investigacion: "Revisé mi ropa y seleccioné prendas en buen estado que ya no eran de mi talla. Reflexioné sobre la realidad de los adolescentes que viven en albergues y reconocí que pequeñas acciones pueden generar un impacto positivo en la vida de otras personas.",
+                preparacion: "Organicé las prendas seleccionadas y planifiqué la entrega personal al INABIF. Me aseguré de que toda la ropa estuviera en condiciones adecuadas para ser donada y útil para los adolescentes beneficiarios.",
+                accion: "Transporté personalmente una cantidad considerable de ropa y la entregué a la institución. Lo más significativo fue reflexionar sobre la responsabilidad de dar un uso adecuado a los recursos y comprender que una acción sencilla puede contribuir al bienestar de quienes enfrentan circunstancias más complejas.",
+                demostracion: "Si volviera a vivir esta experiencia, intentaría reunir una mayor cantidad de ropa e involucrar a familiares y amigos para ampliar el alcance de la donación. También me informaría más sobre las necesidades específicas de los adolescentes albergados para asegurar que los artículos donados respondan mejor a sus necesidades reales."
+                },
+                ras: [
+                "RA4 — Demostré compromiso y responsabilidad al seleccionar, organizar y transportar personalmente la ropa hasta la institución, completando la actividad de principio a fin.",
+                "RA7 — Reflexioné sobre el impacto de la donación en la vida de otras personas y tomé la decisión consciente de dar una segunda oportunidad de uso a prendas en buen estado."
+                ]
+            }
+        };
+
+        var tipoColor = {
+            "Servicio": { color: "#50B478", bg: "rgba(80,180,120,0.1)", border: "rgba(80,180,120,0.3)" },
+            "Actividad": { color: "#4CA3DD", bg: "rgba(76,163,221,0.1)", border: "rgba(76,163,221,0.3)" },
+            "Creatividad": { color: "#A882E8", bg: "rgba(138,130,232,0.1)", border: "rgba(138,130,232,0.3)" }
+        };
+        function showExp(num, btn) {
+            var btns = document.querySelectorAll('.month-btn');
+            for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
+            btn.classList.add('active');
+            var detail = document.getElementById('exp-detail');
+            var exp = experiencias[num];
+            if (!exp) {
+                detail.innerHTML = '<div style="padding:2.5rem 4rem;"><p style="color:var(--gray);font-size:1rem;">Esta experiencia aún no ha sido realizada.</p></div>';
+                detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                return;
+            }
+            var tc = tipoColor[exp.tipo] || tipoColor["Servicio"];
+            var fotosHTML = '';
+            for (var f = 0; f < exp.fotos.length; f++) {
+                fotosHTML += '<img src="' + exp.fotos[f] + '" alt="Evidencia" style="width:100%;border-radius:10px;object-fit:cover;aspect-ratio:4/3;background:rgba(255,255,255,0.05);">';
+            }
+            var descHTML = '';
+            for (var d = 0; d < exp.descripcion.length; d++) {
+                descHTML += '<p>' + exp.descripcion[d] + '</p>';
+            }
+            var rasHTML = '';
+            for (var r = 0; r < exp.ras.length; r++) {
+                rasHTML += '<li><div class="ra-dot"></div>' + exp.ras[r] + '</li>';
+            }
+            detail.innerHTML =
+                '<div class="exp-hero" style="border-bottom:none;padding-top:2.5rem;">' +
+                '<div class="exp-type" style="color:' + tc.color + ';border-color:' + tc.border + ';background:' + tc.bg + ';">● ' + exp.tipo + '</div>' +
+                '<h2 class="exp-title">' + exp.nombre + '</h2>' +
+                '<p class="section-body">' + exp.tipo + ' · San Ignacio de Recalde · ' + exp.mes + ' ' + exp.año + '</p>' +
+                '<div class="exp-body">' +
+                '<div class="exp-grid">' +
+                '<div>' +
+                '<div class="exp-section"><p class="exp-section-title">Asunto Global y Problema Local</p><p>' + exp.asunto + '</p></div>' +
+                '<div class="exp-section"><p class="exp-section-title">Descripción de la Experiencia</p>' + descHTML + '</div>' +
+                '<div class="exp-section"><p class="exp-section-title">Evidencias</p><div class="evidence-grid">' + fotosHTML + '</div></div>' +
+                '<div class="exp-section"><p class="exp-section-title">Reflexión Personal por Etapas</p>' +
+                '<div class="stages">' +
+                '<div class="stage-card"><div class="stage-name">Investigación</div><div class="stage-text">' + exp.reflexion.investigacion + '</div></div>' +
+                '<div class="stage-card"><div class="stage-name">Preparación</div><div class="stage-text">' + exp.reflexion.preparacion + '</div></div>' +
+                '<div class="stage-card"><div class="stage-name">Acción</div><div class="stage-text">' + exp.reflexion.accion + '</div></div>' +
+                '<div class="stage-card"><div class="stage-name">Demostración</div><div class="stage-text">' + exp.reflexion.demostracion + '</div></div>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="sidebar">' +
+                '<div class="sidebar-card"><p class="sidebar-title">Resultados de Aprendizaje</p><ul class="ra-list">' + rasHTML + '</ul></div>' +
+                '<div class="sidebar-card"><p class="sidebar-title">Tipo de experiencia</p><span style="font-size:.85rem;color:' + tc.color + ';">● ' + exp.tipo + '</span></div>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+            detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        function showPage(id, linkEl) {
+            var pages = document.querySelectorAll('.page');
+            for (var i = 0; i < pages.length; i++) pages[i].classList.remove('active');
+            var links = document.querySelectorAll('.nav-links a');
+            for (var j = 0; j < links.length; j++) links[j].classList.remove('active');
+            document.getElementById(id).classList.add('active');
+            if (linkEl) linkEl.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+
+</html>
